@@ -1,0 +1,83 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+*.cover
+.hypothesis/
+.cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+.tox/
+.nox/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.env.bak/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+nosetests.xml
+
+# Build / packaging
+build/
+dist/
+wheels/
+*.whl
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# Local config and secrets
+config/config.yaml
+config/config.local.yaml
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Logs and runtime files
+logs/
+*.log
+app.log
+
+# Cursor (local editor state)
+.cursor/
+
+# Docker / local overrides (if added later)
+docker-compose.override.yml
+docker-compose.local.yml
