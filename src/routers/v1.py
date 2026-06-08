@@ -1,10 +1,12 @@
-"""Агрегирующий роутер для API версии v1"""
+"""Агрегирующий роутер API."""
 
 from fastapi import APIRouter
 
-# Все endpoint'ы v1 подключаются под единым префиксом версии.
-# Любой новый router v1 подключается только здесь — так проще контролировать
-# публичный API и избежать рассинхронизации префиксов
-api_v1_router = APIRouter(prefix="/api/v1")
+from src.routers.tasks import router as tasks_router
+from src.routers.users import router as users_router
 
-__all__ = ("api_v1_router",)
+api_router = APIRouter()
+api_router.include_router(users_router)
+api_router.include_router(tasks_router)
+
+__all__ = ("api_router",)
