@@ -1,6 +1,7 @@
 POSTGRES_DB_HOST: localhost
 POSTGRES_DB_PORT: 5432
 POSTGRES_DB_NAME: user-task-manager
+POSTGRES_TEST_DB_NAME: user-task-manager-test
 POSTGRES_POOL_SIZE: 10  # Количество постоянно поддерживаемых соединений в пуле
 POSTGRES_MAX_OVERFLOW: 20  # Сколько временных соединений можно открыть сверх POSTGRES_POOL_SIZE при пиках
 POSTGRES_POOL_RECYCLE_SEC: 1800  # Через сколько секунд "старое" соединение пересоздается (защита от stale connections)
