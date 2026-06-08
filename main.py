@@ -1,18 +1,24 @@
 from contextlib import asynccontextmanager
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from starlette.middleware.cors import CORSMiddleware
 
+from logs import log_writer, logger
 from settings import config_loader
 from src.database import engine
-from src.routers import api_v1_router
+from src.routers import api_router
+
+http_logger = logger.getChild("http")
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
+    logger.info("Запуск приложения user-task-manager")
     yield
+    logger.info("Остановка приложения user-task-manager")
     await engine.dispose()
+    log_writer.shutdown()
 
 
 def create_app() -> FastAPI:
@@ -24,6 +30,17 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
+    @app.middleware("http")
+    async def log_requests(request: Request, call_next):
+        response = await call_next(request)
+        http_logger.info(
+            "%s %s -> %s",
+            request.method,
+            request.url.path,
+            response.status_code,
+        )
+        return response
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -32,7 +49,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.include_router(api_v1_router)
+    app.include_router(api_router)
 
     return app
 

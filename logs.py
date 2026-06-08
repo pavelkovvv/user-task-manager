@@ -31,6 +31,9 @@ class AsyncLogWriter:
             backupCount=10,
             encoding="utf-8",
         )
+        self.handler.setFormatter(
+            logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s"),
+        )
         self.thread = Thread(target=self._write_loop, daemon=True)
         self.thread.start()
         atexit.register(self.shutdown)
