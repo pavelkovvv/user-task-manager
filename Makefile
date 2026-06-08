@@ -12,6 +12,7 @@ test:
 lint:
 	ruff check src tests main.py settings.py logs.py alembic
 	ruff format --check src tests main.py settings.py logs.py alembic
+	mypy src main.py settings.py logs.py tests
 
 format:
 	ruff format src tests main.py settings.py logs.py alembic

@@ -1,14 +1,15 @@
 from collections.abc import AsyncGenerator
+from typing import Any, cast
 
 import pytest
 from httpx import ASGITransport, AsyncClient
 from main import app
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
-from tests.db import get_test_database_name, test_engine
 
 from settings import config_loader
 from src.database import get_obj_db
+from tests.db import get_test_database_name, test_engine
 
 API_PREFIX = ""
 TEST_EMAIL = "user@example.com"
@@ -77,10 +78,10 @@ def test_email() -> str:
     return TEST_EMAIL
 
 
-async def create_user(client: AsyncClient, email: str, name: str = "Ivan") -> dict:
+async def create_user(client: AsyncClient, email: str, name: str = "Ivan") -> dict[str, Any]:
     response = await client.post(f"{API_PREFIX}/users", json={"email": email, "name": name})
     response.raise_for_status()
-    return response.json()
+    return cast(dict[str, Any], response.json())
 
 
 async def create_task(
@@ -88,10 +89,10 @@ async def create_task(
     user_id: int,
     title: str,
     description: str | None = None,
-) -> dict:
+) -> dict[str, Any]:
     response = await client.post(
         f"{API_PREFIX}/users/{user_id}/tasks",
         json={"title": title, "description": description},
     )
     response.raise_for_status()
-    return response.json()
+    return cast(dict[str, Any], response.json())

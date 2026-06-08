@@ -26,7 +26,7 @@ async def create_user(db: AsyncSession, data: UserCreate) -> User:
     return user
 
 
-async def get_user(db: AsyncSession, user_id: int) -> type[User]:
+async def get_user(db: AsyncSession, user_id: int) -> User:
     """Получить объект пользователя"""
     user = await user_crud.get_user_by_id(db, user_id)
     if user is None:

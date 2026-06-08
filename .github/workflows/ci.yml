@@ -52,6 +52,7 @@ jobs:
         run: |
           ruff check src tests main.py settings.py logs.py alembic
           ruff format --check src tests main.py settings.py logs.py alembic
+          mypy src main.py settings.py logs.py tests
 
       - name: Run tests
         run: pytest tests/ -v

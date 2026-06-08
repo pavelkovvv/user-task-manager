@@ -23,7 +23,7 @@ class AsyncLogWriter:
     _STOP = object()
 
     def __init__(self) -> None:
-        self.queue = Queue(maxsize=10_000)
+        self.queue: Queue[logging.LogRecord | object] = Queue(maxsize=10_000)
         self.log_file = self._resolve_log_file()
         self.handler = RotatingFileHandler(
             self.log_file,
@@ -63,7 +63,8 @@ class AsyncLogWriter:
                 # Маркер _STOP ставится в shutdown: без него join к потоку мог бы повиснуть на get()
                 if record is self._STOP:
                     break
-                self.handler.emit(record)
+                if isinstance(record, logging.LogRecord):
+                    self.handler.emit(record)
             except Exception:
                 # Поток логирования не должен завершаться молча при ошибке записи
                 logging.getLogger(__name__).exception("Не удалось записать запись в журнал")
